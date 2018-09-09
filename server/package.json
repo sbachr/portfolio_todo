@@ -1,0 +1,23 @@
+{
+  "name": "portfolio_simantic",
+  "version": "1.0.0",
+  "description": "task portfolio week 1 hacktiv 8 batch 21-victory-fox",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "syaiful Bachri",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "fb": "^2.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.13",
+    "morgan": "^1.9.0"
+  }
+}

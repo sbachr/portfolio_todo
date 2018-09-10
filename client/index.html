@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<link href="lib/login.css" rel="stylesheet">
+	<script>
+		window.fbAsyncInit = function() {
+		  FB.init({
+			appId      : '270370310470792',
+			cookie     : true,
+			xfbml      : true,
+			version    : 'v3.1'
+		  });
+			
+		  FB.AppEvents.logPageView();   
+			
+		};
+	  
+		(function(d, s, id){
+		   var js, fjs = d.getElementsByTagName(s)[0];
+		   if (d.getElementById(id)) {return;}
+		   js = d.createElement(s); js.id = id;
+		   js.src = "https://connect.facebook.net/en_US/sdk.js";
+		   fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
+
+		 function checkLoginState(){
+			 FB.getLoginStatus(function(response){
+				 $.ajax({
+					 method : 'POST',
+					 url : 'http://localhost:3000/signin/fb',
+					 headers : {
+						 accessToken : response.authResponse.accessToken
+					 }
+				 })
+				 .done(function(result){
+					 console.log(result.token)
+					 localStorage.setItem('token', result.token)
+					 localStorage.setItem('name', result.name)
+					 window.location = '/home.html'
+				 })
+			 })
+		 }
+	  </script>
+	
+</head>
+<body>
+    
+
+<div class="container">
+    <div class="omb_login">
+    	<h3 class="omb_authTitle">Login or <a href="./registration.html" method="POST">Sign up</a></h3>
+		<div class="row omb_row-sm-offset-3 omb_socialButtons">
+        	<div class="col-xs-12 col-sm-6">
+		       <!-- ==========================login button======================== -->
+			<fb:login-button 
+				scope="public_profile,email" 
+				onlogin="checkLoginState();" 
+				class="fb-login-button btn btn-block" 
+				data-max-rows="1" 
+				data-size="large"
+				data-button-type="login_with" 
+				data-show-faces="false" 
+				data-auto-logout-link="false" 
+				data-use-continue-as="false">
+			</fb:login-button>
+	        </div>	
+        	
+		</div>
+
+		<div class="row omb_row-sm-offset-3 omb_loginOr">
+			<div class="col-xs-12 col-sm-6">
+				<hr class="omb_hrOr">
+				<span class="omb_spanOr">or</span>
+			</div>
+		</div>
+
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-6">	
+			    <form class="omb_loginForm" action="" autocomplete="off" method="POST">
+					<div class="input-group">
+						<!-- ==========================input======================== -->
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" class="form-control" name="username" placeholder="email address">
+					</div>
+					<span class="help-block"></span>
+										
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<input  type="password" class="form-control" name="password" placeholder="Password">
+					</div>
+                    <span class="help-block">Password error</span>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+				</form>
+			</div>
+    	</div>
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-3">
+				<label class="checkbox">
+					<input type="checkbox" value="remember-me">Remember Me
+				</label>
+			</div>
+			<div class="col-xs-12 col-sm-3">
+				<p class="omb_forgotPwd">
+					<a href="#">Forgot password?</a>
+				</p>
+			</div>
+		</div>	    	
+	</div>
+
+	
+
+	</div>
+	<script src="lib/loginFacebook.js"></script>
+</body>
+</html>

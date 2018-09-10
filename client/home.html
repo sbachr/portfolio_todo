@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>todo-app</title>
+    <!-- load bulma css framework -->
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MY TO DO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href=/static/css/app.css rel=stylesheet>
+  </head>
+  <body>
+    <div id="app">
+            <section class="hero is-primary">
+                <div class="hero-body">
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column">
+                                <p>Hi, {{owner}}</p>
+                            </div>
+                            <div class="column">
+                                    <button id="logout" class="button is-link is-outlined is-right" onclick="logout()" >Log Out</button>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column">
+                                <h1 class="title is-large">To-Do List</h1>
+                            </div>
+                        </div>
+                        
+                        <div id="todoStats" class="tabs is-fullwidth">
+                            <!-- all todo stats -->
+                            <ul>
+                                <li>
+                                   <p class="has-text-weight-semibold">Completed : <span>{{todos.filter(todo => {return todo.status === true}).length}}</span></p>
+                                </li>
+                                <li>
+                                    <p class="has-text-weight-semibold">Pending : <span>{{ todos.filter(todo => {return todo.status === false}).length}}</span></p>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            
+            <!-- render todo component -->
+            <div class="container">
+            <section class="section" v-for="todo in todos">
+                <br>
+                        <div class="columns">
+                            <div class="column">
+                                <div class="card" v-show="!isEditing">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                        {{ todo.title }}, <span> {{dateFormat(todo.deadline)}} </span>
+                                        </p>
+                                        <a class="card-header-icon">
+                                        <span class="status">
+                                            <!-- todo status tags -->
+                                            <a class="button is-success is-small has-text-weight-semibold" v-show="!isEditing && todo.status" disabled>
+                                            Completed
+                                            </a>
+                                            <a class="button is-danger is-small has-text-weight-semibold" v-on:click="completeTodo(todo)" v-show="!isEditing && !todo.status">
+                                            Pending
+                                            </a>
+                                        </span>
+                                        </a>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                        {{ todo.task }}
+                                        </div>
+                                        <div class="content">
+                                            <input class="input" type="tags" placeholder="Add Tag" v-bind:value="todo.tag" disabled>
+                                        </div>
+                                    </div>
+                                
+                                    <footer class="card-footer">
+                                        <a class="card-footer-item" v-on:click="showForm(todo)"><span><img src="https://png.icons8.com/nolan/30/000000/edit.png"></span></a>
+                                        <a class="card-footer-item" v-on:click="deleteTodo(todo)"><span><img src="https://png.icons8.com/nolan/30/000000/delete.png"></span></a>
+                                        
+                                    </footer>
+                                </div>
+                            </div> 
+                        </div>
+                <br>
+            </section>
+            
+            </div>
+            <!-- end todo -->
+            <!-- modal -->
+            <edit-todo 
+                v-show="isEditing" 
+                v-bind:todo="edited"
+                v-on:hide-form="hideForm"
+            >
+            </edit-todo>
+          
+            <!-- modal --> 
+            <new-todo v-on:new-todo="newTodo"></new-todo>
+           
+      
+        <footer>
+            <div class="container">
+                <p class="subtitle is-6 is-small">built  by <strong><a target="_blank" href="https://github.com/sbachr">syaiful Bachri</a></strong></p>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="lib/logout.js"></script>
+    <script src="vue/todo-edit.js"></script>
+    <script src="vue/new-todo.js"></script>
+    <script src="vue/app.js"></script>
+  </body>
+</html>

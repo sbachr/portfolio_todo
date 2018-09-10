@@ -1,8 +1,15 @@
 const express = require('express')
 const app = express()
+// const fbLogin = require('./routes/fbLogin');
 const RouterIndex = require('./routes/routerIndex')
 const RouterUser = require('./routes/routerUser')
-const port = 4000
+const RouterAuth = require('./routes/routerAuth')
+
+const port = 3000
+
+// cors
+const cors = require('cors')
+app.use(cors())
 
 // mongoose database
 const mongoose = require('mongoose')
@@ -21,8 +28,10 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
+// app.use('/fb-login', fbLogin)
 app.use('/user', RouterUser)
-app.use('/todo', RouterIndex)
+app.use('/signin', RouterAuth)
+app.use('/home', RouterIndex)
 
 
 app.listen(port, () => console.log(`Server Running at port ${port}`)) 
